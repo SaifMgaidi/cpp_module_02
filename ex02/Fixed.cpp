@@ -21,7 +21,7 @@ Fixed& Fixed::operator=(const Fixed& other)
 {
 	std::cout << "Copy assignment operator called" << std::endl;
 	if (this != &other)
-		fixedPoint_ = other.getRawBits();
+		fixedPoint_ = other.fixedPoint_;
 	return (*this);
 }
 
@@ -29,7 +29,7 @@ Fixed& Fixed::operator=(const Fixed& other)
 Fixed::Fixed(const int integer)
 {
 	std::cout << "Int constructor called" << std::endl;
-	setRawBits(integer << nFractionalBits_);
+	fixedPoint_ = integer << nFractionalBits_;
 }
 
 Fixed::Fixed(const float number)
@@ -45,16 +45,17 @@ Fixed::~Fixed()
 }
 
 
-
 // ------------------------------Member Functions----------------------------------------
 
 int		Fixed::getRawBits(void) const
 {
+	std::cout << "getRawBits member function called" << std::endl;
 	return (fixedPoint_);
 }
 
 void	Fixed::setRawBits(int const raw)
 {
+	std::cout << "setRawBits member function called" << std::endl;
 	fixedPoint_ = raw;
 }
 
@@ -67,7 +68,6 @@ int	Fixed::toInt( void ) const
 {
 	return (fixedPoint_ >> nFractionalBits_);
 }
-
 
 
 bool	Fixed::operator<(const Fixed& other) const
@@ -104,7 +104,7 @@ Fixed	Fixed::operator+(const Fixed& other) const
 {
 	Fixed	result;
 
-	result.setRawBits(fixedPoint_ + other.fixedPoint_);
+	result.fixedPoint_ = fixedPoint_ + other.fixedPoint_;
 	return (result);
 }
 
@@ -112,7 +112,7 @@ Fixed	Fixed::operator-(const Fixed& other) const
 {
 	Fixed	result;
 
-	result.setRawBits(fixedPoint_ - other.fixedPoint_);
+	result.fixedPoint_ = fixedPoint_ - other.fixedPoint_;
 	return (result);
 }
 
@@ -120,7 +120,7 @@ Fixed	Fixed::operator*(const Fixed& other) const
 {
 	Fixed	result;
 
-	result.setRawBits(static_cast<long> (fixedPoint_) * static_cast<long>(other.fixedPoint_) >> nFractionalBits_);
+	result.fixedPoint_ = static_cast<long> (fixedPoint_) * static_cast<long>(other.fixedPoint_) >> nFractionalBits_;
 	return (result);
 }
 
@@ -128,8 +128,64 @@ Fixed	Fixed::operator/(const Fixed& other) const
 {
 	Fixed	result;
 
-	result.setRawBits((static_cast<long>(fixedPoint_) << nFractionalBits_) / other.fixedPoint_);
+	result.fixedPoint_ = (static_cast<long>(fixedPoint_) << nFractionalBits_) / other.fixedPoint_;
 	return (result);
+}
+
+Fixed&	Fixed::operator++()
+{
+	fixedPoint_ += 1;
+	return (*this);
+}
+
+Fixed	Fixed::operator++(int)
+{
+	Fixed	result(*this);
+
+	fixedPoint_ += 1;
+	return (result);
+}
+
+Fixed&	Fixed::operator--()
+{
+	fixedPoint_ -= 1;
+	return (*this);
+}
+
+Fixed	Fixed::operator--(int)
+{
+	Fixed	result(*this);
+
+	fixedPoint_ -= 1;
+	return (result);
+}
+
+Fixed&	Fixed::min(Fixed& a, Fixed& b)
+{
+	if (a < b)
+		return (a);
+	return (b);
+}
+
+Fixed&	Fixed::max(Fixed& a, Fixed& b)
+{
+	if (a > b)
+		return (a);
+	return (b);
+}
+
+const Fixed&	Fixed::min(const Fixed& a, const Fixed& b)
+{
+	if (a < b)
+		return (a);
+	return (b);
+}
+
+const Fixed&	Fixed::max(const Fixed& a, const Fixed& b)
+{
+	if (a > b)
+		return (a);
+	return (b);
 }
 
 // ---------------------Non-Member Functions----------------------------
@@ -139,4 +195,3 @@ std::ostream&	operator<<(std::ostream& out, const Fixed& obj)
 	out << obj.toFloat();
 	return (out);
 }
-
