@@ -1,6 +1,8 @@
 #include "Fixed.hpp"
 
 
+const int	Fixed::nFractionalBits_ = 8;
+
 // ---------------------------Constructor-------------------------------------------
 
 // default constructor
@@ -19,23 +21,23 @@ Fixed::Fixed(const Fixed& other)
 // copy assignment operator overload
 Fixed& Fixed::operator=(const Fixed& other)
 {
-	std::cout << "Copy assignment operator called" << std::endl;
 	if (this != &other)
 		fixedPoint_ = other.fixedPoint_;
+	std::cout << "Copy assignment operator called" << std::endl;
 	return (*this);
 }
 
 
 Fixed::Fixed(const int integer)
 {
-	std::cout << "Int constructor called" << std::endl;
 	fixedPoint_ = integer << nFractionalBits_;
+	std::cout << "Int constructor called" << std::endl;
 }
 
-Fixed::Fixed(const float number)
+Fixed::Fixed(const float float_number)
 {
+	fixedPoint_ = roundf(float_number * (1 << nFractionalBits_));
 	std::cout << "Float constructor called" << std::endl;
-	fixedPoint_ = roundf(number * (1 << nFractionalBits_));
 }
 
 // --------------------------------Destructor----------------------------------------

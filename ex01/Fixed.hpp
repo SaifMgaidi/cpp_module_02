@@ -24,7 +24,7 @@ public:
 	int		toInt( void ) const;
 private:
 	int					fixedPoint_;
-	static const int	nFractionalBits_ = 8;
+	static const int	nFractionalBits_;
 };
 
 
