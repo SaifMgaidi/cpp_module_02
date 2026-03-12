@@ -19,7 +19,7 @@ public:
 	void	setRawBits(int const raw);
 private:
 	int					fixedPoint_;
-	static const int	nFractionalBits_ = 8;
+	static const int	nFractionalBits_;
 };
 
 #endif

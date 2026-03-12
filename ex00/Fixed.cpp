@@ -1,6 +1,9 @@
 #include "Fixed.hpp"
 
 
+
+const int Fixed::nFractionalBits_ = 8;
+
 // ---------------------------Constructor-------------------------------------------
 
 // default constructor
@@ -45,6 +48,6 @@ int		Fixed::getRawBits(void) const
 
 void	Fixed::setRawBits(int const raw)
 {
-	std::cout << "setRawBits member function called" << std::endl;
 	fixedPoint_ = raw;
+	std::cout << "setRawBits member function called" << std::endl;
 }
